@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#0a0a0c">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>levl</title>
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Background ambient glow effect when level -->
+  <div id="ambient-glow" class="ambient-glow"></div>
+
+  <!-- Top Bar: Status, Mode, Calibrate & Sound controls -->
+  <header class="top-bar">
+    <div class="brand">
+      <span class="brand-dot"></span>
+      <span class="brand-title">LEVL</span>
+    </div>
+    <div class="header-controls">
+      <button id="mode-btn" class="pill-btn" title="Toggle Mode">AUTO</button>
+      <button id="zero-btn" class="pill-btn" title="Zero / Calibrate on current surface">ZERO</button>
+      <button id="haptic-btn" class="pill-btn icon-btn" title="Toggle Haptic/Sound Feedback" aria-label="Toggle Haptic">
+        <svg class="haptic-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M2 10v4M6 7v10M10 4v16M14 7v10M18 10v4M22 12v0"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Viewport -->
+  <main class="level-container" id="level-container">
+    
+    <!-- Primary Level Ring / Gauge -->
+    <div class="level-stage" id="level-stage">
+      <!-- Surface Mode: Bullseye Reticle -->
+      <div class="bullseye-view" id="bullseye-view">
+        <!-- Outer target rings -->
+        <div class="ring outer-ring"></div>
+        <div class="ring mid-ring"></div>
+        <div class="ring inner-ring"></div>
+        
+        <!-- Crosshairs -->
+        <div class="crosshair ch-x"></div>
+        <div class="crosshair ch-y"></div>
+        <div class="center-cross"></div>
+        
+        <!-- Degrees circle markers -->
+        <span class="angle-marker marker-1">1°</span>
+        <span class="angle-marker marker-2">2°</span>
+        
+        <!-- The Floating Bubble -->
+        <div class="bubble-circle" id="bubble">
+          <div class="bubble-highlight"></div>
+          <div class="bubble-core"></div>
+        </div>
+      </div>
+
+      <!-- Edge / Vertical Mode: Linear Level Vial -->
+      <div class="edge-view" id="edge-view">
+        <div class="edge-tube">
+          <div class="edge-ticks">
+            <span class="tick major"></span>
+            <span class="tick minor"></span>
+            <span class="tick minor"></span>
+            <span class="tick center"></span>
+            <span class="tick minor"></span>
+            <span class="tick minor"></span>
+            <span class="tick major"></span>
+          </div>
+          <div class="edge-target-zone"></div>
+          <div class="edge-bubble" id="edge-bubble"></div>
+        </div>
+        <div class="edge-horizon-line" id="edge-horizon-line"></div>
+      </div>
+    </div>
+
+    <!-- Readout & Information Area -->
+    <section class="readout-section">
+      <div class="primary-readout" id="primary-readout">
+        <span class="degree-val" id="degree-val">0.0</span>
+        <span class="degree-unit">°</span>
+      </div>
+
+      <div class="mode-indicator" id="mode-indicator">SURFACE LEVEL</div>
+
+      <!-- Secondary axis details -->
+      <div class="sub-readouts" id="sub-readouts">
+        <div class="axis-pill">
+          <span class="axis-label">PITCH</span>
+          <span class="axis-value" id="pitch-val">0.0°</span>
+        </div>
+        <div class="axis-pill">
+          <span class="axis-label">ROLL</span>
+          <span class="axis-value" id="roll-val">0.0°</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Permission Modal / Overlay for iOS and browser sensor consent -->
+  <div class="permission-overlay" id="permission-overlay">
+    <div class="permission-card">
+      <div class="perm-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="perm-icon">
+          <circle cx="12" cy="12" r="9"/>
+          <circle cx="12" cy="12" r="3"/>
+          <line x1="12" y1="3" x2="12" y2="7"/>
+          <line x1="12" y1="17" x2="12" y2="21"/>
+          <line x1="3" y1="12" x2="7" y2="12"/>
+          <line x1="17" y1="12" x2="21" y2="12"/>
+        </svg>
+      </div>
+      <h2>levl</h2>
+      <p>Tap below to allow access to device motion & accelerometer sensors.</p>
+      <button id="enable-sensors-btn" class="action-btn">Enable Sensors</button>
+      <p class="perm-subtext">Desktop or sensors unavailable? Touch or move mouse to preview.</p>
+    </div>
+  </div>
+
+  <!-- Calibration Banner Notice -->
+  <div class="toast" id="toast">Zeroed to current surface</div>
+
+  <script src="app.js"></script>
+</body>
+</html>
